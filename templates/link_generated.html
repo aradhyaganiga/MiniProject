@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Share with Partner{% endblock %}
+
+{% block content %}
+<div class="link-page">
+    <div class="progress-bar">
+        <div class="progress" style="width: 80%"></div>
+    </div>
+    
+    <div class="success-message">
+        <div class="checkmark">✓</div>
+        <h2>Your Responses Have Been Saved!</h2>
+        <p>Now it's your partner's turn</p>
+    </div>
+    
+    <div class="link-container">
+        <h3>Share this link with your partner:</h3>
+        <div class="link-box">
+            <input type="text" id="partner-link" value="{{ link }}" readonly>
+            <button onclick="copyLink()" class="btn-copy" id="copy-btn">
+                📋 Copy Link
+            </button>
+        </div>
+        <p class="link-info">This link is unique and can only be used once. Your partner will answer the same questions.</p>
+    </div>
+    
+    <div class="share-options">
+        <h4>Or share via:</h4>
+        <div class="share-buttons">
+            <a href="https://wa.me/?text=Please%20complete%20this%20relationship%20questionnaire:%20{{ link }}" 
+               target="_blank" class="share-btn whatsapp">
+                WhatsApp
+            </a>
+            <a href="mailto:?subject=Relationship%20Questionnaire&body=Please%20complete%20this%20questionnaire:%20{{ link }}" 
+               class="share-btn email">
+                Email
+            </a>
+            <a href="sms:?body=Please%20complete%20this%20questionnaire:%20{{ link }}" 
+               class="share-btn sms">
+                SMS
+            </a>
+        </div>
+    </div>
+    
+    <div class="next-steps">
+        <h4>What happens next?</h4>
+        <ol>
+            <li>Your partner opens the link and completes the questionnaire</li>
+            <li>Once they submit, results will be automatically generated</li>
+            <li>Both of you will see the compatibility analysis and recommendations</li>
+        </ol>
+    </div>
+    
+    <div class="warning-box">
+        ⚠️ <strong>Important:</strong> Keep this link safe. Anyone with this link can see your combined results.
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function copyLink() {
+        const linkInput = document.getElementById('partner-link');
+        const copyBtn = document.getElementById('copy-btn');
+        
+        linkInput.select();
+        document.execCommand('copy');
+        
+        // Visual feedback
+        copyBtn.textContent = '✓ Copied!';
+        copyBtn.style.backgroundColor = '#10b981';
+        
+        setTimeout(() => {
+            copyBtn.textContent = '📋 Copy Link';
+            copyBtn.style.backgroundColor = '';
+        }, 2000);
+    }
+</script>
+{% endblock %}

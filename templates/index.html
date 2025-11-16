@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Welcome - Relationship Compatibility Predictor{% endblock %}
+
+{% block content %}
+<div class="landing-page">
+    <div class="hero-section">
+        <h2 class="main-heading">Discover Your Relationship Future</h2>
+        <p class="sub-heading">Get AI-powered insights about your relationship compatibility and potential challenges</p>
+    </div>
+    
+    <div class="status-selection">
+        <h3>What's your relationship status?</h3>
+        <form method="POST" action="{{ url_for('select_gender') }}" class="status-form">
+            <div class="card-grid">
+                <button type="submit" name="status" value="unmarried" class="status-card">
+                    <div class="icon">💑</div>
+                    <h4>Unmarried / Dating</h4>
+                    <p>Discover your compatibility potential</p>
+                </button>
+                
+                <button type="submit" name="status" value="married" class="status-card">
+                    <div class="icon">💍</div>
+                    <h4>Married</h4>
+                    <p>Assess your relationship health</p>
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="how-it-works">
+        <h3>How It Works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h4>Answer Questions</h4>
+                <p>Complete a brief questionnaire about your relationship</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h4>Share with Partner</h4>
+                <p>Get a unique link to share with your partner</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h4>Get Results</h4>
+                <p>Receive AI-powered insights and recommendations</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="privacy-notice">
+        <h4>🔒 Your Privacy Matters</h4>
+        <p>All responses are confidential. Results are only visible to you and your partner.</p>
+    </div>
+</div>
+{% endblock %}

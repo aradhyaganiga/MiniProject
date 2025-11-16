@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}Your Results{% endblock %}
+
+{% block content %}
+<div class="results-page">
+    <div class="progress-bar">
+        <div class="progress" style="width: 100%"></div>
+    </div>
+    
+    <h2>📊 Your Relationship Analysis</h2>
+    
+    <div class="result-summary">
+        <div class="prediction-card {% if 'Excellent' in prediction or 'Low' in prediction %}positive{% elif 'Good' in prediction or 'Moderate' in prediction %}moderate{% else %}warning{% endif %}">
+            <h3>{{ prediction }}</h3>
+            <div class="score-display">
+                <svg class="gauge" viewBox="0 0 200 120">
+                    <path class="gauge-background" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e5e7eb" stroke-width="15"/>
+                    <path class="gauge-fill" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="currentColor" stroke-width="15" 
+                          stroke-dasharray="{{ probability * 1.6 }} 160" stroke-linecap="round"/>
+                    <text x="100" y="90" text-anchor="middle" class="gauge-text">{{ probability }}%</text>
+                </svg>
+            </div>
+            <p class="score-label">
+                {% if status == 'unmarried' %}
+                Compatibility Score
+                {% else %}
+                Risk Assessment
+                {% endif %}
+            </p>
+        </div>
+    </div>
+    
+    <div class="explanation-card">
+        <h4>💡 Analysis</h4>
+        <p>{{ explanation }}</p>
+    </div>
+    
+    <div class="domain-breakdown">
+        <h4>📈 Domain-wise Breakdown</h4>
+        <div class="chart-container">
+            <canvas id="domainChart"></canvas>
+        </div>
+    </div>
+    
+    <div class="comparison-table">
+        <h4>🔍 Detailed Comparison</h4>
+        <table>
+            <thead>
+                <tr>
+                    <th>Domain</th>
+                    <th>Your Score</th>
+                    <th>Partner's Score</th>
+                    <th>Alignment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for domain in ['communication', 'trust', 'finance', 'intimacy', 'family', 'personal_growth', 'commitment'] %}
+                <tr>
+                    <td class="domain-name">{{ domain|replace('_', ' ')|title }}</td>
+                    <td class="score">{{ user1_scores.get(domain, 0) }}/4</td>
+                    <td class="score">{{ user2_scores.get(domain, 0) }}/4</td>
+                    <td>
+                        {% set diff = (user1_scores.get(domain, 0) - user2_scores.get(domain, 0))|abs %}
+                        {% if diff <= 0.5 %}
+                        <span class="badge excellent">Excellent ✓</span>
+                        {% elif diff <= 1.5 %}
+                        <span class="badge good">Good</span>
+                        {% elif diff <= 2.5 %}
+                        <span class="badge moderate">Moderate</span>
+                        {% else %}
+                        <span class="badge low">Low</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="recommendations">
+        <h4>💪 Recommendations</h4>
+        <ul>
+            {% if 'Excellent' in prediction or 'Low' in prediction %}
+            <li>Continue building on your strong foundation with regular check-ins</li>
+            <li>Discuss long-term goals and aspirations together</li>
+            <li>Don't take your connection for granted - keep investing in it</li>
+            {% elif 'Good' in prediction %}
+            <li>Have deep conversations about areas showing moderate alignment</li>
+            <li>Set aside quality time for each other weekly</li>
+            <li>Consider couples workshops or relationship enrichment programs</li>
+            {% else %}
+            <li>Seek professional couples counseling to address key concerns</li>
+            <li>Work on communication skills and active listening</li>
+            <li>Both partners must commit to making positive changes</li>
+            <li>Focus on rebuilding trust and understanding</li>
+            {% endif %}
+        </ul>
+    </div>
+    
+    <div class="action-buttons">
+        <button onclick="window.print()" class="btn-secondary">🖨️ Print Results</button>
+        <a href="{{ url_for('index') }}" class="btn-primary">Take Another Assessment</a>
+    </div>
+    
+    <div class="disclaimer-box">
+        <p><strong>Disclaimer:</strong> This assessment provides general insights based on your responses. It should not replace professional relationship counseling or therapy. For serious relationship concerns, please consult a licensed therapist or counselor.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    (function() {
+        // Domain comparison chart
+        const domains = ['Communication', 'Trust', 'Finance', 'Intimacy', 'Family', 'Personal Growth', 'Commitment'];
+        
+        // SAFEST METHOD: Build array in Python, convert to JSON
+        const user1Data = [
+            parseFloat('{{ user1_scores.get("communication", 0) }}') || 0,
+            parseFloat('{{ user1_scores.get("trust", 0) }}') || 0,
+            parseFloat('{{ user1_scores.get("finance", 0) }}') || 0,
+            parseFloat('{{ user1_scores.get("intimacy", 0) }}') || 0,
+            parseFloat('{{ user1_scores.get("family", 0) }}') || 0,
+            parseFloat('{{ user1_scores.get("personal_growth", 0) }}') || 0,
+            parseFloat('{{ user1_scores.get("commitment", 0) }}') || 0
+        ];
+        
+        const user2Data = [
+            parseFloat('{{ user2_scores.get("communication", 0) }}') || 0,
+            parseFloat('{{ user2_scores.get("trust", 0) }}') || 0,
+            parseFloat('{{ user2_scores.get("finance", 0) }}') || 0,
+            parseFloat('{{ user2_scores.get("intimacy", 0) }}') || 0,
+            parseFloat('{{ user2_scores.get("family", 0) }}') || 0,
+            parseFloat('{{ user2_scores.get("personal_growth", 0) }}') || 0,
+            parseFloat('{{ user2_scores.get("commitment", 0) }}') || 0
+        ];
+        
+        console.log('User 1 Data:', user1Data);
+        console.log('User 2 Data:', user2Data);
+        
+        const ctx = document.getElementById('domainChart');
+        if (!ctx) {
+            console.error('Canvas element "domainChart" not found');
+            return;
+        }
+        
+        try {
+            new Chart(ctx.getContext('2d'), {
+                type: 'radar',
+                data: {
+                    labels: domains,
+                    datasets: [{
+                        label: 'You',
+                        data: user1Data,
+                        borderColor: 'rgb(99, 102, 241)',
+                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Partner',
+                        data: user2Data,
+                        borderColor: 'rgb(236, 72, 153)',
+                        backgroundColor: 'rgba(236, 72, 153, 0.2)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 4,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error('Error creating chart:', error);
+        }
+    })();
+</script>
+{% endblock %}
