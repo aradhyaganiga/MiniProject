@@ -100,7 +100,7 @@ def predict_compatibility(user1_scores, user2_scores, relationship_status):
     similarity = 1 - (total_diff / max_diff)
     
     # Combined score (weighted average of absolute scores and similarity)
-    combined_score = (avg_score / (len(domains) * 4)) * 0.6 + similarity * 0.4
+    combined_score = (avg_score / (len(domains) * 8)) * 0.6 + similarity * 0.4
     
     # Identify problem areas (low scores or big differences)
     problem_domains = []
