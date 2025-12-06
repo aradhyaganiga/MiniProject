@@ -51,6 +51,21 @@
             <li>Both of you will see the compatibility analysis and recommendations</li>
         </ol>
     </div>
+    <!-- Add this AFTER the partner link section -->
+    <div class="results-section" style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #e0e0e0;">
+        <h3 style="color: #333; margin-bottom: 15px;">📊 View Your Results</h3>
+        <p style="color: #666; margin-bottom: 20px;">
+            After your partner completes the questionnaire, you can view your compatibility results here:
+        </p>
+        <a href="{{ url_for('show_results', link_token=link.split('/')[-1]) }}" 
+           class="btn btn-primary" 
+           style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">
+            🔍 Check Results
+        </a>
+        <p style="color: #999; font-size: 14px; margin-top: 15px;">
+            ℹ️ Note: Results will only be available after both partners complete the questionnaire.
+        </p>
+    </div>
     
     <div class="warning-box">
         ⚠️ <strong>Important:</strong> Keep this link safe. Anyone with this link can see your combined results.
