@@ -231,17 +231,31 @@ def show_results(link_token):
     responses = cursor.fetchall()
     
     # Prepare features for ML model
+    
     user1_scores = {}
     user2_scores = {}
-    
+    user1_counts = {}
+    user2_counts = {}
+
     for resp in responses:
         domain = resp['domain']
         weight = resp['weight']
-        
+
         if resp['user_number'] == 1:
             user1_scores[domain] = user1_scores.get(domain, 0) + weight
+            user1_counts[domain] = user1_counts.get(domain, 0) + 1
         else:
             user2_scores[domain] = user2_scores.get(domain, 0) + weight
+            user2_counts[domain] = user2_counts.get(domain, 0) + 1
+
+# FIX: Calculate average score per domain (to keep scores in 0-4 range)
+    for domain in user1_scores.keys():
+        if user1_counts[domain] > 0:
+            user1_scores[domain] = user1_scores[domain] / user1_counts[domain]
+
+    for domain in user2_scores.keys():
+        if user2_counts[domain] > 0:
+            user2_scores[domain] = user2_scores[domain] / user2_counts[domain]
     
     # Make prediction
     prediction, probability, explanation = predict_compatibility(
