@@ -92,30 +92,45 @@ def insert_sample_questions(cursor):
         (1, "How often do you and your partner have meaningful conversations?", "communication", "both"),
         (2, "When you disagree, how do you typically resolve conflicts?", "communication", "both"),
         (3, "How comfortable are you expressing your feelings to your partner?", "communication", "both"),
+        (4, "How well does your partner listen when you share your concerns?", "communication", "both"),
+        (5, "Do you feel comfortable discussing difficult topics with your partner?", "communication", "both"),
+        (6, "How often do you misunderstand each other's intentions?", "communication", "both"),
         
         # Trust & Honesty Domain
-        (4, "How much do you trust your partner with important decisions?", "trust", "both"),
-        (5, "How often do you feel the need to check your partner's phone or social media?", "trust", "both"),
+        (7, "How much do you trust your partner with important decisions?", "trust", "both"),
+        (8, "How often do you feel the need to check your partner's phone or social media?", "trust", "both"),
+        (9, "How transparent are you with your partner about your daily activities?", "trust", "both"),
+        (10, "Do you feel secure in your partner's commitment to you?", "trust", "both"),
         
         # Financial Domain
-        (6, "How do you handle financial decisions in your relationship?", "finance", "both"),
-        (7, "How often do you argue about money?", "finance", "both"),
+        (11, "How do you handle financial decisions in your relationship?", "finance", "both"),
+        (12, "How often do you argue about money?", "finance", "both"),
+        (13, "Do you and your partner have similar spending habits?", "finance", "both"),
+        (14, "How comfortable are you discussing financial goals together?", "finance", "both"),
         
         # Intimacy & Affection Domain
-        (8, "How satisfied are you with physical intimacy in your relationship?", "intimacy", "both"),
-        (9, "How often do you express affection (hugs, kisses, compliments)?", "intimacy", "both"),
+        (15, "How satisfied are you with physical intimacy in your relationship?", "intimacy", "both"),
+        (16, "How often do you express affection (hugs, kisses, compliments)?", "intimacy", "both"),
+        (17, "How satisfied are you with the emotional intimacy in your relationship?", "intimacy", "both"),
+        (18, "Do you feel your partner understands your emotional needs?", "intimacy", "both"),
         
         # Family & Future Domain
-        (10, "Are you aligned on having children (or parenting style if you have kids)?", "family", "both"),
-        (11, "How well do you get along with each other's families?", "family", "both"),
+        (19, "Are you aligned on having children (or parenting style if you have kids)?", "family", "both"),
+        (20, "How well do you get along with each other's families?", "family", "both"),
+        (21, "How aligned are you on where to live (near family vs. independent)?", "family", "both"),
+        (22, "Do you share similar cultural or religious values?", "family", "both"),
         
         # Personal Growth Domain
-        (12, "Does your partner support your personal goals and ambitions?", "personal_growth", "both"),
-        (13, "How much personal space/independence do you have in the relationship?", "personal_growth", "both"),
+        (23, "Does your partner support your personal goals and ambitions?", "personal_growth", "both"),
+        (24, "How much personal space/independence do you have in the relationship?", "personal_growth", "both"),
+        (25, "Does your relationship encourage you to become a better person?", "personal_growth", "both"),
+        (26, "How well do you balance relationship time with personal hobbies?", "personal_growth", "both"),
         
         # Commitment Domain
-        (14, "How committed do you feel to making this relationship work?", "commitment", "both"),
-        (15, "Have you thought about ending the relationship in the past 6 months?", "commitment", "both"),
+        (27, "How committed do you feel to making this relationship work?", "commitment", "both"),
+        (28, "Have you thought about ending the relationship in the past 6 months?", "commitment", "both"),
+        (29, "How often do you discuss your future together?", "commitment", "both"),
+        (30, "Are you both on the same page about long-term relationship goals?", "commitment", "both"),
     ]
     
     for q_id, text, domain, gender in questions_data:
@@ -143,78 +158,168 @@ def insert_sample_questions(cursor):
         (3, "Mostly comfortable", 3),
         (3, "Somewhat uncomfortable", 2),
         (3, "Very uncomfortable or afraid", 1),
+
+        # Q4: listening quality
+        (4, "Excellent - fully attentive", 4),
+        (4, "Good - mostly listens", 3),
+        (4, "Fair - sometimes distracted", 2),
+        (4, "Poor - rarely listens", 1),
+
+        # Q5: difficult topics
+        (5, "Very comfortable - we discuss everything", 4),
+        (5, "Mostly comfortable", 3),
+        (5, "Somewhat uncomfortable", 2),
+        (5, "Very uncomfortable - we avoid them", 1),
+
+        # Q6: misunderstandings
+        (6, "Rarely or never", 4),
+        (6, "Occasionally", 3),
+        (6, "Frequently", 2),
+        (6, "Very often", 1),
         
-        # Q4: trust with decisions
-        (4, "Complete trust", 4),
-        (4, "Mostly trust", 3),
-        (4, "Some doubts", 2),
-        (4, "Little to no trust", 1),
+        # Q7: trust with decisions
+        (7, "Complete trust", 4),
+        (7, "Mostly trust", 3),
+        (7, "Some doubts", 2),
+        (7, "Little to no trust", 1),
         
-        # Q5: checking partner's devices
-        (5, "Never - full trust", 4),
-        (5, "Rarely", 3),
-        (5, "Sometimes", 2),
-        (5, "Often or always", 1),
+        # Q8: checking partner's devices
+        (8, "Never - full trust", 4),
+        (8, "Rarely", 3),
+        (8, "Sometimes", 2),
+        (8, "Often or always", 1),
+
+        # Q9: transparency
+        (9, "Complete transparency", 4),
+        (9, "Mostly transparent", 3),
+        (9, "Somewhat secretive", 2),
+        (9, "Very secretive", 1),
+
+        # Q10: security in commitment
+        (10, "Very secure", 4),
+        (10, "Mostly secure", 3),
+        (10, "Somewhat insecure", 2),
+        (10, "Very insecure", 1),
         
-        # Q6: financial decisions
-        (6, "We plan and decide together", 4),
-        (6, "We discuss major expenses", 3),
-        (6, "We mostly handle separately", 2),
-        (6, "Constant disagreements about money", 1),
+        # Q11: financial decisions
+        (11, "We plan and decide together", 4),
+        (11, "We discuss major expenses", 3),
+        (11, "We mostly handle separately", 2),
+        (11, "Constant disagreements about money", 1),
         
-        # Q7: money arguments
-        (7, "Never or very rarely", 4),
-        (7, "Occasionally", 3),
-        (7, "Frequently", 2),
-        (7, "All the time", 1),
+        # Q12: money arguments
+        (12, "Never or very rarely", 4),
+        (12, "Occasionally", 3),
+        (12, "Frequently", 2),
+        (12, "All the time", 1),
+
+        # Q13: spending habits
+        (13, "Very similar", 4),
+        (13, "Mostly similar", 3),
+        (13, "Somewhat different", 2),
+        (13, "Very different", 1),
+
+        # Q14: financial discussions
+        (14, "Very comfortable", 4),
+        (14, "Mostly comfortable", 3),
+        (14, "Somewhat uncomfortable", 2),
+        (14, "Very uncomfortable", 1),
         
-        # Q8: physical intimacy satisfaction
-        (8, "Very satisfied", 4),
-        (8, "Mostly satisfied", 3),
-        (8, "Somewhat dissatisfied", 2),
-        (8, "Very dissatisfied", 1),
+        # Q15: physical intimacy satisfaction
+        (15, "Very satisfied", 4),
+        (15, "Mostly satisfied", 3),
+        (15, "Somewhat dissatisfied", 2),
+        (15, "Very dissatisfied", 1),
         
-        # Q9: expressing affection
-        (9, "Daily", 4),
-        (9, "Several times a week", 3),
-        (9, "Occasionally", 2),
-        (9, "Rarely or never", 1),
+        # Q16: expressing affection
+        (16, "Daily", 4),
+        (16, "Several times a week", 3),
+        (16, "Occasionally", 2),
+        (16, "Rarely or never", 1),
+
+        # Q17: emotional intimacy
+        (17, "Very satisfied", 4),
+        (17, "Mostly satisfied", 3),
+        (17, "Somewhat dissatisfied", 2),
+        (17, "Very dissatisfied", 1),
+
+        # Q18: understanding emotional needs
+        (18, "Completely understands", 4),
+        (18, "Mostly understands", 3),
+        (18, "Somewhat understands", 2),
+        (18, "Doesn't understand", 1),
         
-        # Q10: alignment on children
-        (10, "Fully aligned", 4),
-        (10, "Mostly aligned", 3),
-        (10, "Some disagreements", 2),
-        (10, "Major disagreements", 1),
+        # Q19: alignment on children
+        (19, "Fully aligned", 4),
+        (19, "Mostly aligned", 3),
+        (19, "Some disagreements", 2),
+        (19, "Major disagreements", 1),
         
-        # Q11: family relationships
-        (11, "Very well - no issues", 4),
-        (11, "Generally well", 3),
-        (11, "Some tension", 2),
-        (11, "Poorly - major conflicts", 1),
+        # Q20: family relationships
+        (20, "Very well - no issues", 4),
+        (20, "Generally well", 3),
+        (20, "Some tension", 2),
+        (20, "Poorly - major conflicts", 1),
+
+        # Q21: living location alignment
+        (21, "Fully aligned", 4),
+        (21, "Mostly aligned", 3),
+        (21, "Some disagreement", 2),
+        (21, "Major disagreement", 1),
+
+        # Q22: cultural/religious values
+        (22, "Very similar", 4),
+        (22, "Mostly similar", 3),
+        (22, "Somewhat different", 2),
+        (22, "Very different", 1),
         
-        # Q12: support for goals
-        (12, "Fully supportive", 4),
-        (12, "Mostly supportive", 3),
-        (12, "Somewhat supportive", 2),
-        (12, "Not supportive", 1),
+        # Q23: support for goals
+        (23, "Fully supportive", 4),
+        (23, "Mostly supportive", 3),
+        (23, "Somewhat supportive", 2),
+        (23, "Not supportive", 1),
         
-        # Q13: personal space
-        (13, "Healthy balance", 4),
-        (13, "Mostly good", 3),
-        (13, "Too much or too little space", 2),
-        (13, "No independence/space", 1),
+        # Q24: personal space
+        (24, "Healthy balance", 4),
+        (24, "Mostly good", 3),
+        (24, "Too much or too little space", 2),
+        (24, "No independence/space", 1),
+
+        # Q25: personal growth encouragement
+        (25, "Strongly encourages growth", 4),
+        (25, "Somewhat encourages", 3),
+        (25, "Neutral", 2),
+        (25, "Holds me back", 1),
+
+        # Q26: balance of time
+        (26, "Perfect balance", 4),
+        (26, "Good balance", 3),
+        (26, "Struggling to balance", 2),
+        (26, "No balance", 1),
         
-        # Q14: commitment level
-        (14, "Fully committed - 100%", 4),
-        (14, "Very committed", 3),
-        (14, "Somewhat committed", 2),
-        (14, "Not committed", 1),
+        # Q27: commitment level
+        (27, "Fully committed - 100%", 4),
+        (27, "Very committed", 3),
+        (27, "Somewhat committed", 2),
+        (27, "Not committed", 1),
         
-        # Q15: thoughts of ending relationship
-        (15, "Never", 4),
-        (15, "Once or twice in passing", 3),
-        (15, "Several times", 2),
-        (15, "Frequently", 1),
+        # Q28: thoughts of ending relationship
+        (28, "Never", 4),
+        (28, "Once or twice in passing", 3),
+        (28, "Several times", 2),
+        (28, "Frequently", 1),
+
+        # Q29: future discussions
+        (29, "Regularly - we plan together", 4),
+        (29, "Sometimes", 3),
+        (29, "Rarely", 2),
+        (29, "Never", 1),
+
+        # Q30: long-term goals alignment
+        (30, "Completely aligned", 4),
+        (30, "Mostly aligned", 3),
+        (30, "Somewhat different", 2),
+        (30, "Very different goals", 1),
     ]
     
     for question_id, option_text, weight in options_data:
