@@ -91,7 +91,7 @@ def predict_compatibility(user1_scores, user2_scores, relationship_status):
     # Calculate metrics
     total_user1 = sum(user1_scores.values())
     total_user2 = sum(user2_scores.values())
-    avg_score = (total_user1 + total_user2) / 2
+    avg_score = (total_user1 + total_user2)
     max_possible = len(domains) * 4 * 2  # max score per domain * 2 users
     
     # Calculate similarity (lower difference = higher compatibility)
